@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan">
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <intProp name="ThreadGroup.num_threads">40</intProp>
+        <intProp name="ThreadGroup.ramp_time">40</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="v_http_request_host" elementType="Argument">
+              <stringProp name="Argument.name">v_http_request_host</stringProp>
+              <stringProp name="Argument.value">amonline-lite-dev.apps.nonprod-osi.ambg.com.my</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="v_http_request_port" elementType="Argument">
+              <stringProp name="Argument.name">v_http_request_port</stringProp>
+              <stringProp name="Argument.value">443</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="v_http_request_protocol" elementType="Argument">
+              <stringProp name="Argument.name">v_http_request_protocol</stringProp>
+              <stringProp name="Argument.value">https</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="v_user_name" elementType="Argument">
+              <stringProp name="Argument.name">v_user_name</stringProp>
+              <stringProp name="Argument.value">testuser07</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="v_user_password" elementType="Argument">
+              <stringProp name="Argument.name">v_user_password</stringProp>
+              <stringProp name="Argument.value">password</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Application" enabled="false"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login - amonline-lite/api/v1/param-lookup/init">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/param-lookup/init</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">v_PreLogin_AccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.token.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
+            <stringProp name="ConstantTimer.delay">${__Random(1000 , 5000 )}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login - amonline-lite/api/v1/authentication/get-security-image">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/get-security-image</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;username&quot; : &quot;${v_user_name}&quot;&#xd;
+	, &quot;randomKey&quot; : &quot;&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_PreLogin_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">${__Random(1000 , 3000 )}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/authentication/tnc/get-content" enabled="false">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/tnc/get-content</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;username&quot; : ${v_user_name}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_PreLogin_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login - amonline-lite/api/v1/authentication/login">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/login</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;deviceId&quot; : &quot;132ergfer2345raewrfergfewrg&quot;&#xd;
+    , &quot;username&quot; : &quot;pfu${__threadNum}&quot;&#xd;
+    , &quot;chanllengeToken&quot; : &quot;xxx&quot;&#xd;
+    , &quot;pwd&quot; : &quot;password&quot;&#xd;
+    , &quot;tnc&quot;:true&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_PreLogin_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">v_Login_AccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/authentication/otp/verify" enabled="false">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/otp/verify</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;username&quot; : ${v_user_name}&#xd;
+	, &quot;tokenUuid&quot; : &quot;&quot;&#xd;
+	, &quot;deviceId&quot; : &quot;&quot;&#xd;
+	, &quot;otp&quot; : &quot;&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_PreLogin_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/authentication/otp/request-otp" enabled="false">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/otp/request-otp</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;username&quot; : ${v_user_name}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_PreLogin_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Application Function" enabled="true"/>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_Login_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Dashboard - /amonline-lite/api/v1/casa/account-list" enabled="true">
+              <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+              <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+              <stringProp name="HTTPSampler.path">amonline-lite/api/v1/casa/account-list</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Dashboard - /amonline-lite/api/v1/transaction/aoll-trxn-history">
+              <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+              <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+              <stringProp name="HTTPSampler.path">amonline-lite/api/v1/transaction/aoll-trxn-history</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">${__Random(1000 , 3000 )}</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Logout - amonline-lite/api/v1/authentication/log-out">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/authentication/log-out</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${v_Login_AccessToken}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Connector" enabled="false"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/circuit-breaker-status">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/circuit-breaker-status</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/account-list">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/account-list</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  sourceRefNo : String,&#xd;
+  sourceId : String,&#xd;
+  sourceSeqNo : Integer,&#xd;
+  idNo: String,&#xd;
+  idType: String,&#xd;
+  custNo : String,&#xd;
+  noOfRec: Integer,&#xd;
+  lastRecId : String&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/account-details">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/account-details</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  sourceRefNo : String,&#xd;
+  sourceId : String,&#xd;
+  sourceSeqNo : Integer,&#xd;
+  acctNo: String&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/transaction-history">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/transaction-history</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  sourceRefNo : String,&#xd;
+  sourceId : String,&#xd;
+  sourceSeqNo : Integer,&#xd;
+  acctNo: String,&#xd;
+  prtFrmDt: String,&#xd;
+  frmDt: String,&#xd;
+  toDt: String,&#xd;
+  noOfRec: Integer,&#xd;
+  lastRecId: Integer&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/funds-transfer">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/funds-transfer</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  sourceRefNo : String,&#xd;
+  sourceId : String,&#xd;
+  sourceSeqNo : Integer,&#xd;
+  frmAcctNo: String,&#xd;
+  senderName: String,&#xd;
+  toAcctNo: String,&#xd;
+  creditorName: String,&#xd;
+  amount: BigDecimal,&#xd;
+  promoNo: String,&#xd;
+  acctCurCode: String,&#xd;
+  trxnAmt: BigDecimal,&#xd;
+  trxnCurCode: String,&#xd;
+  baseAmt: BigDecimal,&#xd;
+  pymtRef: String,&#xd;
+  pymtDt: String&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="amonline-lite/api/v1/ambancs/casa/limit-enquiry">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/ambancs/casa/limit-enquiry</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Service" enabled="false"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="svc-oauth-engine - amonline-lite/api/v1/oauth-engine/oauth2/client/access-token">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/oauth-engine/oauth2/client/access-token</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">pfu${__threadNum}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">password</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">v_PreLogin_AccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.token.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="svc-oauth-engine - amonline-lite/api/v1/oauth-engine/oauth2/backoffice/access-token">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/oauth-engine/oauth2/api/access-token</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">v_PreLogin_AccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.token.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="svc-oauth-engine - amonline-lite/api/v1/oauth-engine/oauth2/api/access-token">
+            <stringProp name="HTTPSampler.domain">${v_http_request_host}</stringProp>
+            <stringProp name="HTTPSampler.port">${v_http_request_port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${v_http_request_protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">amonline-lite/api/v1/oauth-engine/oauth2/api/access-token</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">v_PreLogin_AccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.token.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="RespTimeGraph.interval">100</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
